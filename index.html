@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Ardel</title>
+    <link rel="shortcut icon" href="https://i.pinimg.com/originals/20/92/fa/2092fa7eee21f0d6e6f2b397e4f5d716.jpg" type="image/x-icon">
+    <link href="/src/output.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-[#FFD7C4] bg-cover" style="background-image: url('https://i.pinimg.com/564x/c3/d1/14/c3d114977ab05496e93dd978be830052.jpg');">
+    <div class="container mx-auto">
+        <h1 class="text-[70px] font-bold text-center text-[#FF9474] font-Bungee mb-8">Halo Ardel</h1>
+
+        <section class="justify-center items-center">
+            <div class="bg-slate-600 text-white rounded-lg shadow-2xl max-w-xs bg-opacity-40 m-auto">
+                <img src="https://i.pinimg.com/originals/18/7e/52/187e52706673730b78c7cf1ad70ad2aa.jpg" alt="cover romance" class="rounded-t-lg w-full p-8">
+
+                <div class="pl-8">
+                    <h2 class="text-[20px] font-bold">Highway 1009</h2>
+                    <p class="text-black uppercase font-semibold text-[25px]">Serigala</p>
+                </div>
+
+                <div class="p-4">
+                    <audio id="audioPlayer" src="Download.mp3"></audio>
+                    <div class="flex flex-col items-center">
+                        <input id="progressBar" type="range" class="w-full bg-gray-700" min="0" max="100" value="0">
+                        <div class="flex items-center justify-between w-full mt-2 text-sm text-gray-400">
+                            <span id="currentTime">0:00</span>
+                            <span id="duration">-2:41</span>
+                        </div>
+                        <div class="flex items-center space-x-6 mt-4">
+                            <button id="prevButton" class="text-white">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M15 19l-8-7 8-7v14zM5 5h2v14H5z"/>
+                                </svg>
+                            </button>
+                            <button id="playPauseButton" class="bg-white rounded-full p-4">
+                                <svg id="playIcon" class="w-6 h-6 text-gray-800" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg id="pauseIcon" class="w-6 h-6 text-gray-800 hidden" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M6 4h4v16H6zm8 0h4v16h-4z"/>
+                                </svg>
+                            </button>
+                            <button id="nextButton" class="text-white">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M9 19V5l11 7-11 7zM3 5h2v14H3z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="mt-8">
+            <p class="text-[30px] border-[10px] px-6 py-6 border-[#FFD7C4] font-del">Twinkle, twinkle, little star
+                How I wonder what you are
+                Up above the world so high
+                Like a diamond in the sky
+                Twinkle, twinkle, little star
+                How I wonder what you are
+                When the blazing sun is gone
+                When he nothing shines upon
+                Then you show your little light
+                Twinkle, twinkle, all the night
+                Twinkle, twinkle, little star
+                How I wonder what you are
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playPauseButton = document.getElementById('playPauseButton');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const progressBar = document.getElementById('progressBar');
+        const currentTime = document.getElementById('currentTime');
+        const duration = document.getElementById('duration');
+
+        playPauseButton.addEventListener('click', () => {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            } else {
+                audioPlayer.pause();
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            }
+        });
+
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            duration.textContent = `-${formatTime(Math.floor(audioPlayer.duration))}`;
+        });
+
+        audioPlayer.addEventListener('timeupdate', () => {
+            const current = Math.floor(audioPlayer.currentTime);
+            const total = Math.floor(audioPlayer.duration);
+            progressBar.value = (current / total) * 100;
+            currentTime.textContent = formatTime(current);
+            duration.textContent = `-${formatTime(total - current)}`;
+        });
+
+        progressBar.addEventListener('input', () => {
+            const total = Math.floor(audioPlayer.duration);
+            audioPlayer.currentTime = (progressBar.value / 100) * total;
+        });
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+    </script>
+</body>
+
+</html>
